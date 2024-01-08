@@ -53,6 +53,7 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        //komentarrrrrrrrrrrrrrrrr
         [HttpGet]
         [Authorize(Roles = "headadmin")]
         public ActionResult Index()
