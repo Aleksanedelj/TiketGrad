@@ -9,6 +9,7 @@ namespace WebApplication4.Models.LoginUsers
 {
     public class DB : DbContext
     {
+        //rrrrrrrrrrrrrrrrrr
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> Roles { get; set; }
 
