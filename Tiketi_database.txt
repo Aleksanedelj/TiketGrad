@@ -1,0 +1,61 @@
+CREATE TABLE Uloge_korisnika (
+	Uloga_ID int NOT NULL PRIMARY KEY,
+	Naziv_uloge VARCHAR(50) NOT NULL
+)
+
+CREATE TABLE Korisnici (
+	ID_Korisnika int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	Ime varchar(30) NOT NULL,
+	Prezime varchar(30) NOT NULL,
+	Sifra varchar(100) NOT NULL,
+	Broj_telefona int NOT NULL,
+	Email varchar(50) NOT NULL,
+	Uloga_ID int NOT NULL
+	FOREIGN KEY (Uloga_ID) REFERENCES dbo.Uloge_korisnika (Uloga_ID)
+)
+
+CREATE TABLE Kategorija_tiketa (
+	Kategorija_tiketa_ID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	Kategorija VARCHAR(MAX)
+)
+
+CREATE TABLE Status_tiketa (
+	Status_tiketa_ID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	Status VARCHAR(MAX)
+)
+
+CREATE TABLE Tiket (
+	ID_Tiketa int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	ID_Korisnika int NOT NULL,
+	Opis_tiketa VARCHAR(MAX) NOT NULL,
+	Datum datetime NOT NULL,
+        Naslov nvarchar(50) not null,
+	Status_tiketa_ID int NOT NULL,
+	Kategorija_tiketa_ID int NOT NULL,
+	FOREIGN KEY (ID_Korisnika) REFERENCES dbo.Korisnici (ID_Korisnika),
+	FOREIGN KEY (Status_tiketa_ID) REFERENCES dbo.Status_tiketa (Status_tiketa_ID),
+	FOREIGN KEY (Kategorija_tiketa_ID) REFERENCES dbo.Kategorija_tiketa (Kategorija_tiketa_ID)
+)
+
+CREATE TABLE Komentari (
+	Komentari_ID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	ID_Tiketa int NOT NULL,
+	ID_Korisnika int NOT NULL,
+	Komentar VARCHAR(MAX),
+	FOREIGN KEY (ID_Tiketa) REFERENCES dbo.Tiket (ID_Tiketa),
+	FOREIGN KEY (ID_Korisnika) REFERENCES dbo.Korisnici (ID_Korisnika)
+)
+
+CREATE TABLE Dokumenta (
+	Dokumenta_ID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	ID_Tiketa int NOT NULL,
+	ID_Korisnika int NOT NULL,
+	Dokument VARCHAR(MAX),
+
+	//ovde dodati file_name i file_ext
+
+	FOREIGN KEY (ID_Tiketa) REFERENCES dbo.Tiket (ID_Tiketa),
+	FOREIGN KEY (ID_Korisnika) REFERENCES dbo.Korisnici (ID_Korisnika)
+)
+
+//dodati procedure za datoteke

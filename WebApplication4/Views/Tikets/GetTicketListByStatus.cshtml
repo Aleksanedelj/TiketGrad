@@ -1,0 +1,221 @@
+﻿@*@model IEnumerable<WebApplication4.Models.TicketModel.Tiket>*@
+
+
+
+@model PagedList.IPagedList<WebApplication4.Models.TicketModel.Tiket>
+
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+
+@{
+    ViewBag.Title = "GetTicketListByStatus";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script src="https://kit.fontawesome.com/c4a0283025.js" crossorigin="anonymous"></script>
+
+
+
+<style type="text/css">
+    #foo {
+        max-height: 100px;
+        /*overflow-y: hidden;*/
+    }
+
+    .bar {
+        width: 180px;
+        float: left;
+        margin: 5px;
+    }
+</style>
+
+<div class="container">
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+        <h2>Pretraga tiketa i generisanje izveštaja</h2>
+    </div>
+</div>
+
+<div class="container col-lg-12">
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="p-5">
+
+
+                                <div style="margin:0px 30px;">
+
+                                    @using (Html.BeginForm("GetTicketListByStatus", "Tikets", FormMethod.Post))
+                                    {
+
+                                        @Html.AntiForgeryToken()
+
+                                        <table class="table">
+                                            <tr style="border-style:hidden;">
+                                                <td><label>Odaberite status</label></td>
+                                                <td>@Html.DropDownList("IDStatus", (SelectList)ViewBag.MyList, "--Izaberite vrednost--", htmlAttributes: new { @class = "form-control" })</td>
+                                                <td><label>Odaberite kategoriju</label></td>
+                                                <td>@Html.DropDownList("IDKat", (SelectList)ViewBag.MyList, "--Izaberite vrednost--", htmlAttributes: new { @class = "form-control" })</td>
+                                            </tr>
+                                            <tr style="border-style:hidden;">
+                                                <td><label>Odaberite datum od</label></td>
+                                                <td><input type="date" id="dateId" name="dateNameFrom" class="form-control" /></td>
+                                                <td><label>Odaberite datum do</label></td>
+                                                <td><input type="date" id="dateId" name="dateNameTo" class="form-control" /></td>
+                                            </tr>
+
+                                            <tr style="border-style:hidden;">
+                                                <td><label>Pretraga po naslovu</label></td>
+                                                <td><input type="text" id="textNote" name="textNote" class="form-control" /></td>
+                                                <td><label>Pretraga po broju tiketa</label></td>
+                                                <td><input type="text" id="ticketNumber" name="ticketNumber" class="form-control" /></td>
+                                            </tr>
+
+                                            <tr style="border-style:hidden;">
+                                                <td>
+                                                    <label>
+                                                        Pretražite sve tikete? <i class="fa-solid fa-comments" title="Kada odaberete ovo polje, sva prethodno unesena polja PRESTAJU da važe."
+                                                                                  name="btnLink" id="btnLink"></i>
+                                                    </label>
+                                                </td>
+                                                <td><input style="width:30px; height:30px;" class="btn btn-outline-primary" type="checkbox" id="selectedState" name="selectedState" value="1" /></td>
+                                                <td>
+                                                    <div class="modal" tabindex="-1" id="ModalPopUp">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header" style="text-align:center;">
+                                                                    <h5 class="modal-title" style="text-align:center;">Obaveštenje</h5>
+                                                                </div>
+                                                                <div class="modal-body" style="text-align:center;">
+                                                                    <p>Kada odaberete ovo polje, sva prethodno unesena polja PRESTAJU da važe.</p>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button id="closeBtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zatvori</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><input class="btn btn-outline-primary" type="submit" value="Pretraži po parametrima" style="float:right;" /></td>
+                                            </tr>
+                                        </table>
+
+
+
+
+                                    }
+
+                                    <div>
+
+                                        <table @*id="example"*@ style="table-layout:fixed; text-align:center;" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Broj Tiketa
+                                                    </th>
+                                                    <th>
+                                                        Naslov Tiketa
+                                                    </th>
+                                                    <th>
+                                                        Datum izdavanja
+                                                    </th>
+                                                    <th>
+                                                        Naziv korisnika
+                                                    </th>
+                                                    <th>
+                                                        Kategorija tiketa
+                                                    </th>
+                                                    <th>
+                                                        Status tiketa
+                                                    </th>
+                                                    <th>
+                                                        Akcija
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            @foreach (var item in Model)
+                                            {
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="font-weight:bold;">
+                                                            @Html.DisplayFor(modelItem => item.IDTiket)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Naslov)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Datum)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.UserName)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Kategorija.Naziv)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Status.Naziv)
+                                                        </td>
+
+                                                        <td>
+                                                            @Html.ActionLink("Details", "Details", new
+                                                               {
+                                                                   id = item.IDTiket
+                                                               })
+                                                            <i class="fas fa-fw fa-edit"></i> <br />
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+
+
+
+
+                                            }
+
+                                            @Html.PagedListPager(Model, page => Url.Action("GetTicketListByStatus", new { page }))
+
+                                        </table>
+
+                                    </div>
+
+                                    <hr />
+
+                                    @using (Html.BeginForm("Generate", "Tikets"))
+                                    {
+                                        <div>
+                                            <input class="btn btn-outline-primary" type="submit" value="Generisi PDF izvestaj" />
+                                        </div>
+                                    }
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $("#btnLink").click(function () {
+        $('#ModalPopUp').modal('show');
+    })
+
+    $("#closeBtn").click(function () {
+        $('#ModalPopUp').modal('hide');
+    })
+
+    new DataTable('#example', {
+        order: [[3, 'desc']]
+    });
+</script>

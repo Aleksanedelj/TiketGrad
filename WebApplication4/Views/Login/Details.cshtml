@@ -1,0 +1,114 @@
+﻿@model WebApplication4.Models.LoginUsers.User
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://kit.fontawesome.com/c4a0283025.js" crossorigin="anonymous"></script>
+
+<div class="container">
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+        <div class="col-xl-8 col-lg-12 col-md-9">
+
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        @*<div class="col-lg-6 d-none d-lg-block bg-login-image"></div>*@
+                        <div class="col-lg-12">
+                            <div class="p-5">
+
+
+                                <h2 style="text-align:center;">Profil korisnika</h2>
+                                <br />
+
+                                <section>
+
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-1">
+                                                    <i class="fa-solid fa-users"></i>
+                                                </div>
+                                                <div class="col-sm-3" style="display:inline-block;">
+                                                    <p class="mb-0">Uloga Korisnika</p>
+                                                </div>
+                                                <div class="col-sm-8" style="text-align:center;">
+                                                    <p class="text-muted mb-0">
+
+                                                        @Html.DisplayFor(model => model.Role.RoleName, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Role.RoleName, "", new { @class = "text-danger" })
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+
+
+                                                <div class="col-sm-1">
+                                                    <i class="fa-solid fa-user"></i>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <p class="mb-0">Ime i Prezime</p>
+                                                </div>
+                                                <div class="col-sm-8" style="text-align:center;">
+                                                    <p class="text-muted mb-0">
+                                                        @Html.DisplayFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } }) @Html.DisplayFor(model => model.Prezime, new { htmlAttributes = new { @class = "form-control" } })
+
+                                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                                        @Html.ValidationMessageFor(model => model.Prezime, "", new { @class = "text-danger" })
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-sm-1">
+                                                    <i class="fa-solid fa-envelope"></i>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <p class="mb-0">Email adresa</p>
+                                                </div>
+                                                <div class="col-sm-8" style="text-align:center;">
+                                                    <p class="text-muted mb-0">
+                                                        @Html.DisplayFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-sm-1">
+                                                    <i class="fa-solid fa-phone-volume"></i>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <p class="mb-0">Broj telefona</p>
+                                                </div>
+                                                <div class="col-sm-8" style="text-align:center;">
+                                                    <p class="text-muted mb-0">
+                                                        @Html.DisplayFor(model => model.Telefon, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Telefon, "", new { @class = "text-danger" })
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </section>
+
+                                <div>
+                                    <a class="btn btn-primary btn-user" href="@Url.Action("Edit", "Login", new {id = Model.Id})" style="width:100%;">Izmeni podatke</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

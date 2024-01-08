@@ -1,0 +1,109 @@
+﻿@model WebApplication4.Models.LoginUsers.User
+
+@{
+    ViewBag.Title = "Registracija";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+
+            <div class="col-xl-8 col-lg-12 col-md-9">
+
+                @{
+                    if (TempData["MessageRegister"] != null)
+                    {
+                        <div class="alert alert-secondary" style="text-align:center;">
+                            <strong>@TempData["MessageRegister"]</strong>
+                        </div>
+                    }
+                }
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            @*<div class="col-lg-6 d-none d-lg-block bg-login-image"></div>*@
+                            <div class="col-lg-12">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Kreirajte nalog!</h1>
+                                    </div>
+                                    <form class="user">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2">Ime</label>
+                                            <div class="">
+                                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2">Prezime</label>
+                                            <div class="">
+                                                @Html.EditorFor(model => model.Prezime, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Prezime, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4">Email adresa</label>
+                                            <div class="">
+                                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2">Telefon</label>
+                                            <div class="">
+                                                @Html.EditorFor(model => model.Telefon, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Telefon, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2">Šifra</label>
+                                            <div class="">
+                                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4">Ponovi šifru</label>
+                                            <div class="">
+                                                <input type="password" name="sifraRep" class="form-control" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-md-offset-2">
+                                                <input type="submit" value="Registruj se" class="btn btn-primary btn-user btn-block" />
+                                            </div>
+                                        </div>
+
+                                        <hr>
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small" href="@Url.Action("Login", "Login")">Imate nalog? Prijavite se!</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+}

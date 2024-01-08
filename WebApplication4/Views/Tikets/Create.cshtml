@@ -1,0 +1,130 @@
+﻿@model WebApplication4.Models.TicketModel.Tiket
+
+
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@*<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>*@
+
+<script src="https://cdn.tiny.cloud/1/tzs8al0oog6wu0wnz79fc7pe8acr88begp1r2qfpdi9u3nju/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+<script>
+    tinymce.init({
+        selector: '#MyId'
+    });
+</script>
+
+<h2 style="text-align: center;">Izdavanje novog tiketa</h2>
+
+@*@using (Html.BeginForm())*@
+
+@using (Html.BeginForm("Create", "Tikets", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="container">
+
+    @{
+        if (TempData["MessageNotificationCreate"] != null)
+        {
+            <div class="alert alert-secondary" style="text-align:center;">
+                <strong>@TempData["MessageNotificationCreate"]</strong>
+            </div>
+        }
+    }
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+        <div class="col-xl-8 col-lg-12 col-md-9">
+
+
+
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        @*<div class="col-lg-6 d-none d-lg-block bg-login-image"></div>*@
+                        <div class="col-lg-12">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Kreirajte tiket!</h1>
+                                </div>
+                                <form class="user">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Naslov, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="">
+                                            @Html.EditorFor(model => model.Naslov, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Naslov, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Opis, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="">
+
+                                            @Html.TextAreaFor(model => model.Opis, 5, 71, new { @class = "form-control", id = "MyId" })
+
+                                            @*@Html.EditorFor(model => model.Opis, new { htmlAttributes = new { @class = "form-control" } })*@
+
+                                            @Html.ValidationMessageFor(model => model.Opis, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">Status</label>
+                                        <div class="">
+                                            @Html.DropDownList("IDStatus", null, htmlAttributes: new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.IDStatus, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">Kategorija</label>
+                                        <div class="">
+                                            @Html.DropDownList("IDKat", null, htmlAttributes: new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.IDKat, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">Korisnici</label>
+                                        <div class="">
+                                            @Html.DropDownList("IDUserAssignedTo", null, htmlAttributes: new { @class = "form-control" })
+                                        </div>
+                                    </div>
+
+
+                                    <!--proba da se u create tiketa doda i prvi inicijalni dokument-->
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">Datoteka</label>
+                                        <div class="">
+                                            <input class="form-control" name="FileAttach" placeholder="Upload File" type="file" multiple>
+                                        </div>
+                                    </div>
+
+                                    <!--proba da se u create tiketa doda i prvi inicijalni dokument-->
+                                    <br />
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2">
+                                            <input type="submit" value="Sačuvaj" class="btn btn-primary btn-user btn-block" />
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+}

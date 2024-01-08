@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+
+namespace WebApplication4.Models.LoginUsers
+{
+    public class AdminData
+    {
+        [Key]
+        public int IDAdminData { get; set; }
+        public string AdminEmail { get; set; }
+    }
+}

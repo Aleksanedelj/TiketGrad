@@ -1,0 +1,366 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    @*<meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewBag.Title - Tiketing sistem</title>
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/Scripts/gridmvc.min.js")
+        <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+        <script src="https://kit.fontawesome.com/c4a0283025.js" crossorigin="anonymous"></script>*@
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Ticketing sistem</title>
+
+    <link rel="icon" type="image/svg" href="~/Images/logo.png" />
+
+    <!-- Custom fonts for this template-->
+    <link href="newTheme/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    @*<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">*@
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;900&display=swap" rel="stylesheet">
+
+    @section Styles
+{
+        <style type="text/css">
+            * {
+                font-family: 'Roboto_Slab variant0', Tofu;
+            }
+        </style>
+    }
+
+
+
+    @Styles.Render("~/newTheme/css/sb-admin-2.min.css")
+    @Styles.Render("~/newTheme/vendor/fontawesome-free/css/all.min.css")
+    @Styles.Render("~/newTheme/DataTables/datatables.min.css")
+    <!-- Custom styles for this template-->
+    <link href="newTheme/css/sb-admin-2.min.css" rel="stylesheet">
+
+    @Scripts.Render("~/newTheme/vendor/jquery/jquery.min.js")
+    @Scripts.Render("~/newTheme/vendor/bootstrap/js/bootstrap.bundle.min.js")
+    @Scripts.Render("~/newTheme/vendor/jquery-easing/jquery.easing.min.js")
+    @Scripts.Render("~/newTheme/js/sb-admin-2.min.js")
+    @Scripts.Render("~/newTheme/vendor/chart.js/Chart.min.js")
+    @Scripts.Render("~/newTheme/js/demo/chart-area-demo.js")
+    @Scripts.Render("~/newTheme/js/demo/chart-pie-demo.js")
+    @Scripts.Render("~/newTheme/js/demo/datatables-demo.js")
+    @Scripts.Render("~/newTheme/DataTables/datatables.min.js")
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            @Html.ActionLink("Tiketing aplikacija", "Index", "Home", new { area = "" }, new { @class = "sidebar-brand d-flex align-items-center justify-content-center" })
+            <div class="sidebar-brand-icon rotate-n-15">
+                <!--<i class="fas fa-laugh-wink"></i>-->
+            </div>
+            @*<div class="sidebar-brand-text mx-3">Ticketing aplikacija</div>*@
+
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="@Url.Action("Index", "Home")">
+                    <i class="fas fa-newspaper"></i>
+                    <span>Početna stranica</span>
+                </a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Meni
+            </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("user"))
+                {
+                    <!-- Nav Item - Kreiraj tiket -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Create", "Tikets")">
+                            <i class="fas fa-fw fa-plus"></i>
+                            <span>Kreiraj tiket</span>
+                        </a>
+                    </li>
+
+                    <!-- Nav Item - Tiketi -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Tikets")">
+                            <i class="fas fa-fw fa-list"></i>
+                            <span>Svi tiketi</span>
+                        </a>
+                    </li>
+
+                    <!-- Nav Item - Pretraga i izvestaj -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("GetTicketListByStatus", "Tikets")">
+                            @*<i class="fas fa-fw fa-calculator"></i>*@
+                            <i class="fas fa-download fa-sm text-white-50"></i>
+                            <span>Pretraga i izveštaji</span>
+                        </a>
+                    </li>
+                }
+                if (User.IsInRole("admin"))
+                {
+                    <!-- Nav Item - Kreiraj tiket -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Create", "Tikets")">
+                            <i class="fas fa-fw fa-plus"></i>
+                            <span>Kreiraj tiket</span>
+                        </a>
+                    </li>
+
+                    <!-- Nav Item - Tiketi -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Tikets")">
+                            <i class="fas fa-fw fa-list"></i>
+                            <span>Svi tiketi</span>
+                        </a>
+                    </li>
+
+                    <!-- Nav Item - Pretraga i izvestaj -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("GetTicketListByStatus", "Tikets")">
+                            @*<i class="fas fa-fw fa-calculator"></i>*@
+                            <i class="fas fa-download fa-sm text-white-50"></i>
+                            <span>Pretraga i izveštaji</span>
+                        </a>
+                    </li>
+                }
+                if (User.IsInRole("headadmin"))
+                {
+                    <!-- Nav Item - Kreiraj tiket -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Create", "Tikets")">
+                            <i class="fas fa-fw fa-plus"></i>
+                            <span>Kreiraj tiket</span>
+                        </a>
+                    </li>
+
+                    <!-- Nav Item - Tiketi -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Tikets")">
+                            <i class="fas fa-fw fa-list"></i>
+                            <span>Svi tiketi</span>
+                        </a>
+                    </li>
+
+                    <!-- Nav Item - Pretraga i izvestaj -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("GetTicketListByStatus", "Tikets")">
+                            @*<i class="fas fa-fw fa-calculator"></i>*@
+                            <i class="fas fa-download fa-sm text-white-50"></i>
+                            <span>Pretraga i izveštaji</span>
+                        </a>
+                    </li>
+
+                    <!-- Nav Item - Pretraga i izvestaj -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Login")">
+                            <i class="fas fa-users"></i>
+                            <span>Lista korisnika</span>
+                        </a>
+                    </li>
+                }
+            }
+            else
+            {
+                <!-- Nav Item - Kreiraj tiket -->
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Login", "Login")">
+                        <i class="fas fa-fw fa-lock-open"></i>
+                        <span>Prijava</span>
+                    </a>
+                </li>
+
+                <!-- Nav Item - Pretraga i izvestaj -->
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Register", "Login")">
+                        <i class="fas fa-fw fa-lock"></i>
+                        <span>Registracija</span>
+                    </a>
+                </li>
+            }
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            @*<div class="text-center d-none d-md-inline">
+            <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>*@
+
+        </ul>
+        <!-- End of Sidebar -->
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Search -->
+                    @*<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                            <div class="input-group">
+                                <input type="text" class="form-control bg-light border-0 small" placeholder="Pretraga..."
+                                       aria-label="Search" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button">
+                                        <i class="fas fa-search fa-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>*@
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <!-- Nav Item - User Information -->
+                            <li class="nav-item dropdown no-arrow">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">Profil</span>
+                                    <!--<img class="img-profile rounded-circle"
+                                    src="img/undraw_profile.svg">-->
+                                </a>
+                                <!-- Dropdown - User Information -->
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                     aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="@Url.Action("Details", "Login")">
+                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Profil
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Izloguj se
+                                    </a>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <!-- Page Heading -->
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                            <h1 class="h3 mb-0 text-gray-800">Ticketing aplikacija</h1>
+                            <a href="@Url.Action("GetTicketListByStatus", "Tikets")" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                                <i class="fas fa-download fa-sm text-white-50"></i> Generisi izvestaj
+                            </a>
+                        </div>
+                    }
+                    <!-- Content Row -->
+                    <div class="row">
+
+                    </div>
+
+                    <!-- Content Row -->
+
+                    <div class="row">
+
+                        <!-- Area Chart -->
+                        <div class="col-xl-8 col-lg-7">
+                            <div class="card shadow mb-4">
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+                @RenderBody()
+            </div>
+            <!-- End of Main Content -->
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Ticketing aplikacija</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Da li ste sigurni da zelite da se odjavite?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Da bi ste se odjavili i prekinuli aktivnu sesiju potrebno je kliknuti na opciju "Odjavi se".</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Prekini odjavu</button>
+                    <a class="btn btn-primary" href="@Url.Action("Logout", "Login")">Odjavi se</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <!--<script src="newTheme/vendor/jquery/jquery.min.js"></script>
+    <script src="newTheme/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>-->
+    <!-- Core plugin JavaScript-->
+    <!--<script src="newTheme/vendor/jquery-easing/jquery.easing.min.js"></script>-->
+    <!-- Custom scripts for all pages-->
+    <!--<script src="newTheme/js/sb-admin-2.min.js"></script>-->
+    <!-- Page level plugins -->
+    <!--<script src="newTheme/vendor/chart.js/Chart.min.js"></script>-->
+    <!-- Page level custom scripts -->
+    <!--<script src="newTheme/js/demo/chart-area-demo.js"></script>
+    <script src="newTheme/js/demo/chart-pie-demo.js"></script>-->
+
+    @RenderSection("scripts", required: false)
+</body>
+
+
+</html>
+

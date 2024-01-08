@@ -1,0 +1,175 @@
+﻿@model IEnumerable<WebApplication4.Models.TicketModel.Tiket>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+
+
+
+<body>
+    <div class="container-fluid">
+
+        @{
+            var modelCount = Model.Count();
+
+            var procenatAktivni = 0;
+
+            var procenatReseni = 0;
+
+            var procenatZatvoreni = 0;
+
+            if (modelCount != 0)
+            {
+                procenatAktivni = Model.Where(m => m.IDStatus == 1).Count() * 100 / Model.Count();
+
+                procenatReseni = Model.Where(m => m.IDStatus == 2).Count() * 100 / Model.Count();
+
+                procenatZatvoreni = Model.Where(m => m.IDStatus == 3).Count() * 100 / Model.Count();
+            }
+
+        }
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Statistički prikaz statusa tiketa</h6>
+            </div>
+            <div class="card-body">
+                <h4 class="small font-weight-bold">Aktivni tiketi<span class="float-right">@procenatAktivni%</span></h4>
+                <div class="progress mb-4">
+                    <div class="progress-bar bg-gradient-primary" role="progressbar" style="width: @procenatAktivni%" aria-valuenow="@procenatAktivni" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <h4 class="small font-weight-bold">Rešeni tiketi<span class="float-right">@procenatReseni%</span></h4>
+                <div class="progress mb-4">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: @procenatReseni%" aria-valuenow="@procenatReseni" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <h4 class="small font-weight-bold">Zatvoreni tiketi<span class="float-right">@procenatZatvoreni%</span></h4>
+                <div class="progress mb-4">
+                    <div class="progress-bar bg-gradient-secondary" role="progressbar" style="width: @procenatZatvoreni%" aria-valuenow="@procenatZatvoreni" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+
+        @{
+            var brojacKomentara = 0;
+            foreach (var item in Model)
+            {
+
+
+                foreach (var kom in item.Komentars)
+                {
+
+                    if (kom.Datum.Value.Date == DateTime.Now.Date)
+                    {
+                        brojacKomentara++;
+                    }
+                }
+            }
+
+
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Današnji komentari
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@brojacKomentara</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            var brojacFajlova = 0;
+            foreach (var item in Model)
+            {
+
+
+                foreach (var f in item.tbl_file)
+                {
+
+                    if (f.Datum.Value.Date == DateTime.Now.Date)
+                    {
+                        brojacFajlova++;
+                    }
+                }
+            }
+
+            <br />
+
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Današnje datoteke
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@brojacFajlova</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-paperclip fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+        <br />
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h3 class="h4 mb-0 text-gray-800">Cesto postavljana pitanja</h3>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-4 col-lg-7">
+                <div class="card shadow mb-4">
+                    <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
+                       role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                        <h6 class="m-0 font-weight-bold text-primary">Pitanje 1</h6>
+                    </a>
+                    <div class="collapse show" id="collapseCardExample">
+                        <div class="card-body">
+                            Primer cesto postavljenih pitanja i odgovara broj 1.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-7">
+                <div class="card shadow mb-4">
+                    <a href="#collapseCardExample1" class="d-block card-header py-3" data-toggle="collapse"
+                       role="button" aria-expanded="true" aria-controls="collapseCardExample1">
+                        <h6 class="m-0 font-weight-bold text-primary">Pitanje 2</h6>
+                    </a>
+                    <div class="collapse show" id="collapseCardExample1">
+                        <div class="card-body">
+                            Primer cesto postavljenih pitanja i odgovara broj 2.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-7">
+                <div class="card shadow mb-4">
+                    <a href="#collapseCardExample2" class="d-block card-header py-3" data-toggle="collapse"
+                       role="button" aria-expanded="true" aria-controls="collapseCardExample2">
+                        <h6 class="m-0 font-weight-bold text-primary">Pitanje 3</h6>
+                    </a>
+                    <div class="collapse show" id="collapseCardExample2">
+                        <div class="card-body">
+                            Primer cesto postavljenih pitanja i odgovara broj 3.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+
+
+

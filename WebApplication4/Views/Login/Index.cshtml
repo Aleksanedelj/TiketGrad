@@ -1,0 +1,150 @@
+﻿@model IEnumerable<WebApplication4.Models.LoginUsers.User>
+
+@*@model IEnumerable<WebApplication4.Helper_Code.ViewModels.UsersViewModel>*@
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center;">Pregled korisnika</h2>
+<br />
+
+
+<div class="card shadow mb-4" style="margin:0px 20px;">
+    @{
+        if (TempData["MessageUserRoleChangedSuccess"] != null)
+        {
+            <div class="alert alert-success" style="text-align:center;">
+                <strong>@TempData["MessageUserRoleChangedSuccess"]</strong>
+            </div>
+        }
+    }
+
+    <div class="card-body">
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-striped" width="100%" cellspacing="0" style="text-align:center;">
+                <tr>
+                    <th>
+                        Korisnicka Uloga
+
+                    </th>
+                    <th>
+                        Ime
+                    </th>
+                    <th>
+                        Email adresa
+                    </th>
+                    <th>
+                        Prezime
+                    </th>
+                    <th>
+                        Telefon
+                    </th>
+                    <th></th>
+                </tr>
+
+
+
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        @if (item.RoleId == 4)
+                        {
+                            <td>
+                                Administrator
+                            </td>
+                        }
+                        else if (item.RoleId == 7)
+                        {
+                            <td>
+                                Head Administrator
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                Korisnik
+                            </td>
+                        }
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Prezime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Telefon)
+                        </td>
+                        <td style="width:315px;">
+
+                            @using (Html.BeginForm("EditUserRole", "Login", FormMethod.Get, new { enctype = "multipart/form-data" }))
+                            {
+                                @Html.AntiForgeryToken()
+
+
+
+                                <input type="hidden" id="id" name="id" value="@item.Id" />
+
+
+                                <input type="submit" value="Promena uloge" class="btn btn-primary" style="float:left;" />
+
+
+                            }
+
+                            @using (Html.BeginForm("Delete", "Login", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                @Html.AntiForgeryToken()
+
+
+
+                                <input type="hidden" id="id" name="id" value="@item.Id" />
+
+
+                                <input type="submit" value="Brisanje korisnika" class="btn btn-primary" />
+
+
+                            }
+
+
+                        </td>
+
+                    </tr>
+                }
+
+            </table>
+
+        </div>
+    </div>
+
+
+
+
+    @if (TempData["AdminEmail"] != null)
+    {
+    <div class="alert alert-secondary" style="text-align:center;">
+        <strong>@TempData["AdminEmail"]</strong>
+    </div>
+    }
+
+
+
+
+    @using (Html.BeginForm("EmailChange", "Login", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <input type="text" id="AdminEmail" name="AdminEmail" />
+
+        <input type="submit" value="Promena emaila" class="btn btn-primary" />
+
+    }
+
+
+</div>
+

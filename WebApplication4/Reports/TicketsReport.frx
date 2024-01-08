@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/29/2023 01:41:07" ReportInfo.Modified="11/27/2023 18:14:30" ReportInfo.CreatorVersion="2023.3.0.0">
+  <Dictionary>
+    <BusinessObjectDataSource Name="Ticket" ReferenceName="TicketRef" DataType="System.Int32" Enabled="true">
+      <Column Name="IDTiket" DataType="System.Int32"/>
+      <Column Name="Datum" DataType="System.Int32"/>
+      <Column Name="UserName" DataType="System.String"/>
+      <Column Name="IDKat" DataType="System.Int32"/>
+      <Column Name="IDStatus" DataType="System.Int32"/>
+    </BusinessObjectDataSource>
+    <BusinessObjectDataSource Name="TicketDetailsCategory" ReferenceName="TicketDetailsCategoryRef" DataType="System.Int32" Enabled="true">
+      <Column Name="IDKat" DataType="System.Int32"/>
+      <Column Name="Naziv" DataType="System.String"/>
+    </BusinessObjectDataSource>
+    <BusinessObjectDataSource Name="TicketDetailsStatus" ReferenceName="TicketDetailsStatusRef" DataType="System.Int32" Enabled="true">
+      <Column Name="IDStatus" DataType="System.Int32"/>
+      <Column Name="Naziv" DataType="System.String"/>
+    </BusinessObjectDataSource>
+    <Relation Name="TicketDetails_Ticket" ParentDataSource="null" ChildDataSource="Ticket" ParentColumns="IDKat" ChildColumns="IDKat" Enabled="true"/>
+    <Relation Name="TicketDetailsCategory_Ticket" ParentDataSource="TicketDetailsCategory" ChildDataSource="Ticket" ParentColumns="IDKat" ChildColumns="IDKat" Enabled="true"/>
+    <Relation Name="TicketDetailsStatus_Ticket" ParentDataSource="TicketDetailsStatus" ChildDataSource="Ticket" ParentColumns="IDStatus" ChildColumns="IDStatus" Enabled="true"/>
+    <Parameter Name="Category1" DataType="System.String" AsString=""/>
+    <Parameter Name="Category2" DataType="System.String" AsString=""/>
+    <Parameter Name="Category3" DataType="System.String" AsString=""/>
+    <Parameter Name="Category4" DataType="System.String" AsString=""/>
+    <Parameter Name="Category5" DataType="System.String" AsString=""/>
+    <Parameter Name="Status1" DataType="System.String" AsString=""/>
+    <Parameter Name="Status2" DataType="System.String" AsString=""/>
+    <Parameter Name="Status3" DataType="System.String" AsString=""/>
+    <Parameter Name="NumberOfTickets" DataType="System.String" AsString=""/>
+  </Dictionary>
+  <ReportPage Name="Page1" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="378">
+      <TextObject Name="Text2" Top="28.35" Width="718.2" Height="37.8" Text="IZVEŠTAJ PRETRAŽENIH TIKETA" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift Condensed, 22pt, style=Bold"/>
+      <TextObject Name="Text26" Left="18.9" Top="113.4" Width="567" Height="18.9" Text="Ukupan broj izabranih tiketa:" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text27" Left="585.9" Top="113.4" Width="113.4" Height="18.9" Text="[NumberOfTickets]" HorzAlign="Right" VertAlign="Center" Font="Arial, 10pt"/>
+      <TextObject Name="Text34" Left="18.9" Top="151.2" Width="321.3" Height="18.9" Text="BROJ TIKETA PO KATEGORIJAMA" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text35" Left="378" Top="151.2" Width="321.3" Height="18.9" Text="BROJ TIKETA PO STATUSIMA" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text16" Left="18.9" Top="189" Width="179.55" Height="18.9" Text="Tiketi niskog prioriteta: " Font="Arial, 10pt"/>
+      <TextObject Name="Text21" Left="245.7" Top="189" Width="94.5" Height="18.9" Text="[Category1]" HorzAlign="Right" Font="Arial, 10pt"/>
+      <TextObject Name="Text28" Left="378" Top="189" Width="179.55" Height="18.9" Text="Broj aktivnih tiketa:" Font="Arial, 10pt"/>
+      <TextObject Name="Text31" Left="585.9" Top="189" Width="113.4" Height="18.9" Text="[Status1]" HorzAlign="Right" Font="Arial, 10pt"/>
+      <TextObject Name="Text17" Left="18.9" Top="226.8" Width="179.55" Height="18.9" Text="Tiketi srednjeg prioriteta: " Font="Arial, 10pt"/>
+      <TextObject Name="Text22" Left="245.7" Top="226.8" Width="94.5" Height="18.9" Text="[Category2]" HorzAlign="Right" Font="Arial, 10pt"/>
+      <TextObject Name="Text29" Left="378" Top="226.8" Width="179.55" Height="18.9" Text="Broj rešenih tiketa:" Font="Arial, 10pt"/>
+      <TextObject Name="Text32" Left="585.9" Top="226.8" Width="113.4" Height="18.9" Text="[Status2]" HorzAlign="Right" Font="Arial, 10pt"/>
+      <TextObject Name="Text18" Left="18.9" Top="264.6" Width="179.55" Height="18.9" Text="Tiketi visokog prioriteta: " Font="Arial, 10pt"/>
+      <TextObject Name="Text23" Left="245.7" Top="264.6" Width="94.5" Height="18.9" Text="[Category3]" HorzAlign="Right" Font="Arial, 10pt"/>
+      <TextObject Name="Text30" Left="378" Top="264.6" Width="179.55" Height="18.9" Text="Broj zatvorenih tiketa:" Font="Arial, 10pt"/>
+      <TextObject Name="Text33" Left="585.9" Top="264.6" Width="113.4" Height="18.9" Text="[Status3]" HorzAlign="Right" Font="Arial, 10pt"/>
+      <TextObject Name="Text19" Left="18.9" Top="302.4" Width="198.45" Height="18.9" Text="Tiketi veoma visokog prioriteta: " Font="Arial, 10pt"/>
+      <TextObject Name="Text24" Left="245.7" Top="302.4" Width="94.5" Height="18.9" Text="[Category4]" HorzAlign="Right" Font="Arial, 10pt"/>
+      <TextObject Name="Text20" Left="18.9" Top="340.2" Width="179.55" Height="18.9" Text="Bloker tiketi: " Font="Arial, 10pt"/>
+      <TextObject Name="Text25" Left="245.7" Top="340.2" Width="94.5" Height="18.9" Text="[Category5]" HorzAlign="Right" Font="Arial, 10pt"/>
+    </ReportTitleBand>
+    <PageHeaderBand Name="PageHeader1" Top="382" Width="718.2" Height="47.25">
+      <TextObject Name="Text5" Left="18.9" Width="132.3" Height="47.25" Border.Lines="All" Text="Broj tiketa" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift Condensed, 14pt, style=Bold"/>
+      <TextObject Name="Text12" Left="151.2" Width="141.75" Height="47.25" Border.Lines="All" Text="Korisnik" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift Condensed, 14pt, style=Bold"/>
+      <TextObject Name="Text13" Left="292.95" Width="141.75" Height="47.25" Border.Lines="All" Text="Datum izdavanja" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift Condensed, 14pt, style=Bold"/>
+      <TextObject Name="Text14" Left="434.7" Width="151.2" Height="47.25" Border.Lines="All" Text="Kategorija" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift Condensed, 14pt, style=Bold"/>
+      <TextObject Name="Text15" Left="585.9" Width="113.4" Height="47.25" Border.Lines="All" Text="Status" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift Condensed, 14pt, style=Bold"/>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="433.25" Width="718.2" Height="37.8" DataSource="Ticket">
+      <TextObject Name="Text1" Left="18.9" Width="132.3" Height="37.8" Border.Lines="All" Text="[Ticket.IDTiket]" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift Condensed, 10pt"/>
+      <TextObject Name="Text6" Left="151.2" Width="141.75" Height="37.8" Border.Lines="All" Text="[Ticket.UserName]" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift Condensed, 10pt"/>
+      <TextObject Name="Text7" Left="292.95" Width="141.75" Height="37.8" Border.Lines="All" Text="[Ticket.Datum]" Format="Date" Format.Format="D" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift Condensed, 10pt"/>
+      <TextObject Name="Text9" Left="434.7" Width="151.2" Height="37.8" Border.Lines="All" Text="[Ticket.TicketDetailsCategory.Naziv]" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift Condensed, 10pt"/>
+      <TextObject Name="Text11" Left="585.9" Width="113.4" Height="37.8" Border.Lines="All" Text="[Ticket.TicketDetailsStatus.Naziv]" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift Condensed, 10pt"/>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="475.05" Width="718.2" Height="75.6">
+      <TextObject Name="Text3" Left="604.8" Top="28.35" Width="94.5" Height="18.9" Text="[Page]" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift Condensed, 10pt"/>
+      <TextObject Name="Text4" Left="18.9" Top="28.35" Width="94.5" Height="18.9" Text="[Date]" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift Condensed, 10pt"/>
+    </PageFooterBand>
+  </ReportPage>
+</Report>

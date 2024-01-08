@@ -1,0 +1,248 @@
+﻿@*@model IEnumerable<WebApplication4.Models.Tiket>*@
+
+@model PagedList.IPagedList<WebApplication4.Models.TicketModel.Tiket>
+
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://kit.fontawesome.com/c4a0283025.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<div class="card shadow mb-4" style="margin:0px 20px;">
+
+    @{
+        if (TempData["MessageErrorTicketIndex"] != null)
+        {
+            <div class="alert alert-secondary" style="text-align:center;">
+                <strong>@TempData["MessageErrorTicketIndex"]</strong>
+            </div>
+        }
+    }
+
+    @{
+        if (TempData["MessageSuccessTicketIndex"] != null)
+        {
+            <div class="alert alert-success" style="text-align:center;">
+                <strong>@TempData["MessageSuccessTicketIndex"]</strong>
+            </div>
+        }
+    }
+
+    <div class="card-header py-3">
+        @using (Html.BeginForm("Details", "Tikets", FormMethod.Get, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <form>
+                <div class="form-row align-items-center">
+                    <div class="col-sm-3 my-1">
+
+                        <label>Izaberite tiket</label>
+                        <input id="id" name="id" type="text" class="form-control" />
+
+
+                    </div>
+
+                    <div class="col-sm-3 my-1">
+                        <br />
+                        <input type="submit" id="dugmeId" value="Pretrazi po id-ju" class="btn btn-primary" />
+                    </div>
+
+                </div>
+            </form>
+        }
+
+        @using (Html.BeginForm("Index", "Tikets"))
+        {
+            <form>
+                <div class="form-row align-items-center">
+                    @if (User.IsInRole("headadmin") || User.IsInRole("admin"))
+                    {
+                        <div class="col-sm-3 my-1">
+                            <label>Tiket izdao</label>
+                            @Html.DropDownList("IDUserCreate", (SelectList)ViewBag.IDUserCreate, "--Izaberite vrednost--", htmlAttributes: new { @class = "form-control" })
+                        </div>
+                    }
+                    <div class="col-sm-3 my-1">
+                        <label>Naslovljen na</label>
+                        @Html.DropDownList("IDUserAssignedTo", (SelectList)ViewBag.IDUserAssignedTo, "--Izaberite vrednost--", htmlAttributes: new { @class = "form-control" })
+                    </div>
+
+                    <div class="col-sm-3 my-1">
+                        <br />
+                        <input type="submit" id="dugmeIdSearch" value="Pretrazi po korisnicima" class="btn btn-primary" />
+                    </div>
+
+                </div>
+            </form>
+        }
+        @*<h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>*@
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table @*class="table table-bordered"*@ id="actionTable" class="table table-bordered table-striped" width="100%" cellspacing="0" style="text-align:center;">
+                <thead>
+                    <tr>
+
+                        <th>@Html.ActionLink("Broj Tiketa", "", new { sortOrder = ViewBag.IDTikSort })</th>
+
+                        <th>Naslov</th>
+                        <th><i class="fa-solid fa-comments"></i></th>
+                        <th><i class="fa-solid fa-paperclip"></i></th>
+                        <th>@Html.ActionLink("Datum izdavanja", "", new { sortOrder = ViewBag.DateSortParm })</th>
+                        <th>@Html.ActionLink("Datum ažuriranja", "", new { sortOrder = ViewBag.DateUpdatedSortParm })</th>
+
+                        @if (User.IsInRole("headadmin") || User.IsInRole("admin"))
+                        {
+                            <th>Izdao tiket</th>
+                        }
+
+                        <th>Naslovljen na</th>
+
+                        <th>@Html.ActionLink("Kategorija tiketa", "", new { sortOrder = ViewBag.CategorySort })</th>
+                        <th>@Html.ActionLink("Status tiketa", "", new { sortOrder = ViewBag.StatusSort })</th>
+                        <th>Akcija</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.IDTiket)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Naslov)</td>
+
+                            @{
+                                var brojacKom = 0;
+                                <td>
+                                    @foreach (var kom in item.Komentars)
+                                    {
+
+                                        if (kom.Datum.Value.Date == DateTime.Now.Date)
+                                        {
+                                            brojacKom++;
+                                            <span style="font-weight:bold; font-size:22px;">@item.Komentars.Count</span>
+                                            break;
+                                        }
+                                    }
+
+                                    @if (brojacKom == 0)
+                                    {
+                                        <span>@item.Komentars.Count</span>
+                                    }
+                                </td>
+                            }
+
+                            @{
+                                var brojacAtt = 0;
+                                <td>
+                                    @foreach (var att in item.tbl_file)
+                                    {
+
+                                        if (att.Datum.Value.Date == DateTime.Now.Date)
+                                        {
+                                            brojacAtt++;
+                                            <span style="font-weight:bold; font-size:22px;">@item.tbl_file.Count</span>
+                                            break;
+                                        }
+                                    }
+                                    @if (brojacAtt == 0)
+                                    {
+                                        <span>@item.tbl_file.Count</span>
+                                    }
+                                </td>
+                            }
+
+                            <td>
+                                @*@Html.DisplayFor(modelItem => item.Datum)*@
+                                @Convert.ToDateTime(item.Datum).ToString("dd/MM/yyyy HH:mm")
+                            </td>
+
+                            @if (item.DateUpdated.Value.Date == DateTime.Now.Date)
+                            {
+                                <td style="font-weight:bold; font-size:20px;">@Convert.ToDateTime(item.DateUpdated).ToString("dd/MM/yyyy HH:mm")</td>
+                            }
+                            else
+                            {
+                                <td>@Convert.ToDateTime(item.DateUpdated).ToString("dd/MM/yyyy HH:mm")</td>
+                            }
+
+                            @if (User.IsInRole("headadmin") || User.IsInRole("admin"))
+                            {
+                                <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                            }
+
+                            <td>@Html.DisplayFor(modelItem => item.UserNameAssignedTo)</td>
+
+                            <!--prikaz ikonica u koloni Kategorija u zavisnosti od stepena vaznosti-->
+                            @if (item.Kategorija.IDKat == 1)
+                            {
+                                <td><i class="fa-solid fa-arrow-down" style="color: #fe1616;"></i>@Html.DisplayFor(modelItem => item.Kategorija.Naziv)</td>
+                            }
+                            else if (item.Kategorija.IDKat == 2)
+                            {
+                                <td><i class="fa-solid fa-minus" style="color: #fe1616;"></i>@Html.DisplayFor(modelItem => item.Kategorija.Naziv)</td>
+                            }
+                            else if (item.Kategorija.IDKat == 3)
+                            {
+                                <td><i class="fa-solid fa-arrow-up" style="color: #fe1616;"></i>@Html.DisplayFor(modelItem => item.Kategorija.Naziv)</td>
+                            }
+                            else if (item.Kategorija.IDKat == 4)
+                            {
+                                <td><i class="fa-solid fa-angle-double-up" style="color: #fe1616;"></i>@Html.DisplayFor(modelItem => item.Kategorija.Naziv)</td>
+                            }
+                            else if (item.Kategorija.IDKat == 5)
+                            {
+                                <td><i class="fa-solid fa-ban" style="color: #fe1616;"></i>@Html.DisplayFor(modelItem => item.Kategorija.Naziv)</td>
+                            }
+                            else
+                            {
+                                <td>@Html.DisplayFor(modelItem => item.Kategorija.Naziv)</td>
+                            }
+
+                            <!--obojenost kolone u zavisnosti od statusa-->
+                            @if (item.Status.IDStatus == 1)
+                            {
+                                <td style="background-color: #4e73df; color: white !important; ">@Html.DisplayFor(modelItem => item.Status.Naziv)</td>
+                            }
+                            else if (item.Status.IDStatus == 2)
+                            {
+                                <td style="background-color: #008000; color: white !important; ">@Html.DisplayFor(modelItem => item.Status.Naziv)</td>
+                            }
+                            else if (item.Status.IDStatus == 3)
+                            {
+                                <td style="background-color: #b5bab8; color: white !important; ">@Html.DisplayFor(modelItem => item.Status.Naziv)</td>
+                            }
+                            else
+                            {
+                                <td>@Html.DisplayFor(modelItem => item.Status.Naziv)</td>
+                            }
+
+                            <td>
+                                @Html.ActionLink("Details", "Details", new { id = item.IDTiket }) <i class="fas fa-fw fa-edit"></i> <br />
+                            </td>
+                        </tr>
+                    }
+
+
+                </tbody>
+            </table>
+
+            @*Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount*@
+
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort }))
+
+        </div>
+    </div>
+</div>
+
+
